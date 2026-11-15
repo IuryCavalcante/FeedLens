@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "FeedLens",
+  "version": "1.0.2",
+  "description": "Track how much of your social media feed actually matches your interests.",
+  "icons": {
+    "16": "icons/feedlens-16.png",
+    "32": "icons/feedlens-32.png",
+    "48": "icons/feedlens-48.png",
+    "128": "icons/feedlens-128.png"
+  },
+  "permissions": [
+    "storage",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "https://api.typesafe.ai/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "panel.html"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/feedlens-16.png",
+      "32": "icons/feedlens-32.png"
+    },
+    "default_title": "Open FeedLens"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.linkedin.com/*",
+        "https://linkedin.com/*"
+      ],
+      "js": [
+        "networks.js",
+        "linkedin.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "minimum_chrome_version": "116"
+}

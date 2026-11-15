@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<!-- FeedLens - side panel interface. Developed with help from ChatGPT. -->
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FeedLens</title>
+  <style>
+    :root {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #182230;
+      background: #f7f9fc;
+      --primary: #344054;
+      --green: #268153;
+      --green-light: #cdebd8;
+      --red: #cd514c;
+      --red-light: #f4d5d3;
+      --muted: #667085;
+      --line: #e4e7ec;
+    }
+    * { box-sizing: border-box; }
+    body { min-width: 310px; margin: 0; padding: 16px; font-size: 13px; }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    .app-header, .heading, .line, .interest-head, .network-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    }
+    .app-header { gap: 10px; }
+    .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .logo { display: block; flex: 0 0 38px; width: 38px; height: 38px; }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 19px; letter-spacing: -.5px; }
+    h2 { font-size: 14px; }
+    h3 { font-size: 13px; }
+    p { line-height: 1.5; }
+    .muted { color: var(--muted); }
+    .tiny { font-size: 11px; }
+    .small { font-size: 12px; }
+    .page-head { margin: 13px 0 12px; }
+    .badge { border: 1px solid #d0d5dd; border-radius: 20px; color: #475467; background: white; padding: 6px 9px; white-space: nowrap; font-size: 11px; font-weight: 700; }
+    .badge[data-state="active"] { color: #247953; border-color: #cce9d7; background: #edf8f0; }
+    .badge[data-state="paused"] { color: #8c5909; border-color: #fae0ac; background: #fff8e8; }
+    .badge[data-state="missing"] { color: #475467; background: #f2f4f7; }
+    .nav { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; padding: 4px; background: #e9edf3; border-radius: 11px; margin: 17px 0 15px; }
+    .nav button { padding: 9px 3px; font-size: 11px; font-weight: 700; border: 0; border-radius: 8px; color: #667085; background: transparent; }
+    .nav button.active { background: white; color: var(--primary); box-shadow: 0 1px 4px #1018281a; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid #84caff; outline-offset: 2px; }
+    .hidden { display: none !important; }
+    .select-row { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; }
+    .select-row label { font-size: 12px; font-weight: 700; color: #475467; white-space: nowrap; }
+    select, input[type="text"], input[type="password"], input[type="month"], textarea { width: 100%; padding: 10px 11px; border: 1px solid #d0d5dd; border-radius: 9px; background: white; color: #182230; }
+    #networkFilter { flex: 1; min-width: 0; }
+    .card { background: white; border: 1px solid var(--line); border-radius: 13px; padding: 14px; margin-bottom: 10px; }
+    .card-soft { background: #eef3fa; border-color: #e0e8f3; }
+    .kicker { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .35px; }
+    .big-pair { font-size: 30px; line-height: 1.3; font-weight: 700; letter-spacing: -.9px; margin: 4px 0; }
+    .big-pair .slash { font-size: 22px; color: #98a2b3; font-weight: 400; margin: 0 3px; }
+    .big-pair .secondary-num { color: #475467; font-size: 24px; }
+    .medium-pair { font-size: 23px; font-weight: 700; letter-spacing: -.5px; margin: 5px 0; }
+    .medium-pair .secondary-num { font-size: 18px; color: #667085; }
+    .medium-pair .slash { color: #98a2b3; padding: 0 4px; font-weight: 400; }
+    .two-col { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 9px; }
+    .two-col .card { padding: 12px; }
+    .positive { color: var(--green); }
+    .negative { color: var(--red); }
+    .metric-label { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; }
+    .metric-dot { border: 2px solid currentColor; display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; font-size: 9px; line-height: 1; }
+    .track { height: 8px; border-radius: 20px; background: #eef0f3; overflow: hidden; margin: 8px 0 5px; }
+    .totalbar { height: 100%; border-radius: 20px; overflow: hidden; }
+    .openedbar { height: 100%; }
+    .green-light { background: var(--green-light); }
+    .green-dark { background: var(--green); }
+    .red-light { background: var(--red-light); }
+    .red-dark { background: var(--red); }
+    .interest-item { padding: 11px 0; border-bottom: 1px solid #f0f2f5; }
+    .interest-item:last-child { border-bottom: 0; padding-bottom: 0; }
+    .interest-item strong { font-variant-numeric: tabular-nums; }
+    .interest-item .line { align-items: baseline; }
+    .interest-item .track { margin-bottom: 0; }
+    .card-heading { margin-bottom: 9px; }
+    .note { font-size: 11px; color: var(--muted); line-height: 1.55; }
+    .notice { background: #fff9eb; border: 1px solid #f5dfa9; border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+    .notice h3 { margin-bottom: 5px; }
+    .notice p { font-size: 12px; color: #7a5a24; }
+    .notice button { margin-top: 10px; }
+    .button { border: 1px solid #d0d5dd; border-radius: 8px; padding: 9px 11px; background: white; font-weight: 700; color: #475467; }
+    .button-primary { color: white; background: var(--primary); border-color: var(--primary); }
+    .button-danger { color: #b42318; }
+    .button-small { padding: 6px 10px; font-size: 11px; }
+    .button-wide { width: 100%; }
+    .month-head { display: flex; gap: 12px; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .month-head h2 { white-space: nowrap; }
+    #monthPicker { max-width: 158px; }
+    .day { padding: 11px 0; border-bottom: 1px solid #f0f2f5; }
+    .day:last-child { border-bottom: 0; }
+    .daygrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; align-items: center; }
+    .day-date { grid-column: 1 / -1; text-align: center; font-size: 11px; font-weight: 700; }
+    #days { margin-bottom: 5px; }
+    .day-caption { display: flex; justify-content: space-between; align-items: center; gap: 4px; color: var(--muted); font-size: 10px; }
+    .day .track { margin: 6px 0 0; }
+    .metric-legend { display: inline-flex; align-items: center; gap: 4px; }
+    .swatch { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 12px; font-weight: 700; margin: 0 0 6px; }
+    .field p { margin-top: 5px; }
+    textarea { resize: vertical; min-height: 70px; }
+    .input-row { display: flex; gap: 7px; }
+    .input-row input { min-width: 0; flex: 1; }
+    .input-row button { flex: 0 0 auto; }
+    .check-row { display: flex; gap: 9px; align-items: flex-start; line-height: 1.45; }
+    .check-row input { margin: 2px 0 0; width: 16px; height: 16px; accent-color: var(--primary); flex-shrink: 0; }
+    .check-row label { margin: 0; font-size: 12px; font-weight: 400; }
+    .divider { height: 1px; background: var(--line); margin: 15px 0; }
+    .saved-interest { border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin: 8px 0; }
+    .saved-interest p { color: var(--muted); font-size: 12px; margin-top: 6px; }
+    .saved-interest strong { font-size: 12px; }
+    .network-row { padding: 5px 0; }
+    .network-row .check-row { align-items: center; }
+    .network-row .check-row input { margin: 0; }
+    .footer { padding: 3px 0 8px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    #message { margin: 6px 0 12px; font-size: 12px; color: #247953; }
+    #message.error { color: #b42318; }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <img class="logo" src="icons/feedlens-128.png" alt="">
+      <div>
+        <h1>FeedLens</h1>
+        <p class="muted tiny" id="headerSubtitle">Feed activity</p>
+      </div>
+    </div>
+    <button class="badge" id="status" data-state="missing" type="button" title="View status and settings">Checking...</button>
+  </header>
+
+  <nav class="nav" aria-label="FeedLens navigation">
+    <button type="button" class="active" data-page="today">Today</button>
+    <button type="button" data-page="month">History</button>
+    <button type="button" data-page="settings">Settings</button>
+  </nav>
+
+  <div class="select-row">
+    <label for="networkFilter">Social network</label>
+    <select id="networkFilter" aria-label="Select a social network"></select>
+  </div>
+
+  <main>
+    <section id="today">
+      <div class="page-head heading">
+        <h2 id="todayTitle">Today</h2>
+        <span class="muted tiny">Expanded / Total</span>
+      </div>
+      <div class="notice hidden" id="setupNotice">
+        <h3 id="setupTitle">Finish setup</h3>
+        <p id="setupDescription">Set up FeedLens to get started.</p>
+        <button class="button button-primary button-small" type="button" id="goSettings">Open Settings</button>
+      </div>
+      <div class="card card-soft">
+        <div class="kicker">All posts</div>
+        <div class="big-pair" id="todayAll">0 / 0</div>
+        <div class="muted small" id="todayAllRate">0% of posts expanded</div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="metric-label positive"><span class="metric-dot" aria-hidden="true">✓</span> In Focus</div>
+          <div class="medium-pair" id="todayRelevant">0 / 0</div>
+          <div id="todayGreen"></div>
+          <span class="muted tiny">Expanded / Total</span>
+        </div>
+        <div class="card">
+          <div class="metric-label negative"><span class="metric-dot" aria-hidden="true">−</span> Off Topic</div>
+          <div class="medium-pair" id="todayIrrelevant">0 / 0</div>
+          <div id="todayRed"></div>
+          <span class="muted tiny">Expanded / Total</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="heading card-heading"><h2>By Interest</h2><span class="muted tiny">Expanded / Total</span></div>
+        <div id="todayInterests"></div>
+      </div>
+      <p class="footer">Each post counts once per day per network. In Focus and Off Topic include classified posts only.</p>
+    </section>
+
+    <section id="month" class="hidden">
+      <div class="month-head"><h2>Monthly History</h2><input type="month" id="monthPicker" aria-label="Select a month"></div>
+      <div class="card card-soft">
+        <div class="kicker">All posts this month · Expanded / Total</div>
+        <div class="big-pair" id="monthAll">0 / 0</div>
+        <div class="muted small" id="monthAllRate">0% of posts expanded this month</div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="metric-label positive"><span class="metric-dot" aria-hidden="true">✓</span> In Focus</div>
+          <div class="medium-pair" id="monthRelevant">0 / 0</div>
+          <span class="metric-legend muted tiny"><span class="swatch green-dark" aria-hidden="true"></span>Expanded / <span class="swatch green-light" aria-hidden="true"></span>Total</span>
+        </div>
+        <div class="card">
+          <div class="metric-label negative"><span class="metric-dot" aria-hidden="true">−</span> Off Topic</div>
+          <div class="medium-pair" id="monthIrrelevant">0 / 0</div>
+          <span class="metric-legend muted tiny"><span class="swatch red-dark" aria-hidden="true"></span>Expanded / <span class="swatch red-light" aria-hidden="true"></span>Total</span>
+        </div>
+      </div>
+      <div id="days"></div>
+      <div class="card">
+        <div class="heading card-heading"><h2>Totals by Interest</h2><span class="muted tiny">Expanded / Total</span></div>
+        <div id="monthInterests"></div>
+      </div>
+    </section>
+
+    <section id="settings" class="hidden">
+      <div class="card">
+        <h2>Jev API</h2>
+        <div class="field" style="margin-top:12px">
+          <label for="apiKey">TypeSafe API key</label>
+          <div class="input-row"><input id="apiKey" type="password" autocomplete="new-password" aria-describedby="keyConsent" placeholder="Enter your Jev API key"><button class="button button-small" id="toggleKey" type="button">Show</button></div>
+          <p class="muted tiny" id="keyState">No API key saved</p>
+        </div>
+        <p class="muted small" id="keyConsent">By saving my API key, I authorize FeedLens to send the text of posts I view to TypeSafe for classification.</p>
+        <p class="note">Chrome stores the API key and records locally.</p>
+        <div class="divider"></div>
+        <h2>Monitored Networks</h2>
+        <div id="networkSettings" style="margin:11px 0"></div>
+        <button class="button button-primary button-wide" id="saveSettings" type="button">Save Settings</button>
+      </div>
+      <div class="card">
+        <div class="heading"><h2>My Interests</h2><span class="muted tiny" id="interestCount">0 interests</span></div>
+        <p class="muted small" style="margin:8px 0 12px">Add each interest and briefly describe it with keywords that help Jev identify posts that match.</p>
+        <div id="settingsInterests"></div>
+        <div class="divider"></div>
+        <h3>Add Interest</h3>
+        <div class="field" style="margin-top:12px"><label for="interestName">Name</label><input id="interestName" type="text" maxlength="70" placeholder="Example: Artificial intelligence"></div>
+        <div class="field"><label for="interestDescription">What do you want to follow?</label><textarea id="interestDescription" maxlength="600" placeholder="Example: practical uses of AI agents, with real examples and results."></textarea></div>
+        <button class="button button-wide" id="addInterest" type="button">+ Add Interest</button>
+      </div>
+      <div class="card">
+        <h2>Clear Data</h2>
+        <p class="muted small" style="margin:7px 0 12px">Delete all FeedLens data, including your history, interests, and API key.</p>
+        <button class="button button-danger" id="clearData" type="button">Delete All Data</button>
+      </div>
+    </section>
+  </main>
+  <div id="message" role="status" aria-live="polite"></div>
+  <script src="networks.js"></script>
+  <script src="panel.js"></script>
+</body>
+</html>
