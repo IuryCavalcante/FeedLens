@@ -1,12 +1,17 @@
 # FeedLens — See what's in focus in your feed
 
+<img src="icons/feedlens-48.png" width="32" alt=""> FeedLens — See what's in focus in your feed
+
 FeedLens is a local Chrome extension that tracks posts you see and expand in your social feed. Describe your interests in your own words, and TypeSafe's Jev API classifies posts as **In Focus** or **Off Topic**. The side panel shows today's activity, monthly history, and settings. FeedLens tracks topic matches. 
 
-## FeedLens Side Panel
+## Side Panel
 
 - **Today** shows all posts viewed today, the **In Focus** and **Off Topic** totals, and a breakdown by interest.
 - **History** shows monthly totals and a daily chart for the selected month. Green represents In Focus and red represents Off Topic. Darker segments show expanded posts within each total.
 - **Settings** manages the API key, monitored networks, and interests. **Delete All Data** asks for confirmation before clearing history, interests, the API key, and local preferences.
+
+![FeedLens side panel showing the Today tab with post totals and a breakdown by interest](docs/feedlens-side-panel.png)
+
 
 The status button opens Settings. **Set Up** means the API key or an interest is missing. **Paused** means monitoring is disabled for the selected network. **Active** means capture is enabled. API responses are handled separately. If the feed is open and the counters stay at zero after reloading the extension, refresh the LinkedIn tab. Changes to LinkedIn's page structure can also affect capture.
 
