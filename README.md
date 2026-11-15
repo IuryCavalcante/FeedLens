@@ -1,6 +1,4 @@
-# FeedLens — See what's in focus in your feed
-
-<img src="icons/feedlens-48.png" width="32" alt=""> FeedLens — See what's in focus in your feed
+# <img src="icons/feedlens-48.png" width="32" alt="">FeedLens — See what's in focus in your feed
 
 FeedLens is a local Chrome extension that tracks posts you see and expand in your social feed. Describe your interests in your own words, and TypeSafe's Jev API classifies posts as **In Focus** or **Off Topic**. The side panel shows today's activity, monthly history, and settings. FeedLens tracks topic matches. 
 
