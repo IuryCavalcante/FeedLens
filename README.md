@@ -44,14 +44,6 @@ You need **Chrome 116 or later**, an internet connection, and a **TypeSafe API k
 7. Open or refresh https://www.linkedin.com/feed/ and browse as usual.
 ```
 
-<img src="docs/feedlens-install.gif" alt="Loading the unpacked extension in chrome://extensions and opening the FeedLens side panel" width="100%" />
-
-<table>
-<tr>
-<td width="50%" valign="top" align="center"><img src="docs/feedlens-api-key.gif" alt="Pasting a TypeSafe API key in Settings and saving" width="100%" /><br /><sub><b>Save your TypeSafe API key</b></sub></td>
-<td width="50%" valign="top" align="center"><img src="docs/feedlens-interests.gif" alt="Adding three interests with a name and a description" width="100%" /><br /><sub><b>Describe your interests</b></sub></td>
-</tr>
-</table>
 
 > [!TIP]
 > **Upgrading?** Replace the files in the folder Chrome already uses, click **Reload** on the extension card, and refresh the LinkedIn tab. Loading a different folder can give the extension a new ID and a separate storage area, which hides your old history.
