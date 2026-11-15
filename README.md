@@ -50,14 +50,6 @@ You need **Chrome 116 or later**, an internet connection, and a **TypeSafe API k
 
 ## The side panel
 
-<table>
-<tr>
-<td width="33%" valign="top" align="center"><img src="docs/feedlens-side-panel.png" alt="FeedLens Today tab with All Posts, In Focus, Off Topic and By Interest totals" width="100%" /><br /><sub><b>Today</b></sub></td>
-<td width="33%" valign="top" align="center"><img src="docs/feedlens-counters.gif" alt="Today counters rising as posts are viewed and expanded" width="100%" /><br /><sub><b>Live counters</b></sub></td>
-<td width="33%" valign="top" align="center"><img src="docs/feedlens-history.gif" alt="Switching from Today to the monthly History tab" width="100%" /><br /><sub><b>History</b></sub></td>
-</tr>
-</table>
-
 **Today**: every post viewed today, the **In Focus** and **Off Topic** totals, and a breakdown **By Interest**.
 
 **History**: monthly totals and a daily chart for the month you pick. Green is In Focus, red is Off Topic, and darker segments are the posts you expanded.
