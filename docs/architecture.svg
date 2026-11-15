@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="620" viewBox="0 0 1400 620" role="img" aria-labelledby="t">
+<title id="t">FeedLens architecture: network adapter, content script, service worker, Jev, local storage, side panel</title>
+<defs>
+  <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2e8b57"/></marker>
+  <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#9aa59f"/></marker>
+</defs>
+<rect width="1400" height="620" rx="20" fill="#f3f6f1"/>
+<g font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+  <text x="56" y="64" font-size="17" letter-spacing="3" fill="#2e8b57">HOW FEEDLENS WORKS</text>
+  <text x="56" y="100" font-size="15" fill="#5d6b63">Everything runs in your browser. Only post text goes to TypeSafe, with your consent.</text>
+</g>
+<!-- zones -->
+<rect x="40" y="130" width="520" height="440" rx="16" fill="none" stroke="#c9d4cc" stroke-width="2" stroke-dasharray="7 7"/>
+<text x="60" y="160" font-family="ui-monospace,Menlo,monospace" font-size="14" fill="#8a968f" letter-spacing="2">WEB PAGE (CONTENT SCRIPTS)</text>
+<rect x="590" y="130" width="770" height="440" rx="16" fill="none" stroke="#c9d4cc" stroke-width="2" stroke-dasharray="7 7"/>
+<text x="610" y="160" font-family="ui-monospace,Menlo,monospace" font-size="14" fill="#8a968f" letter-spacing="2">EXTENSION (TRUSTED CONTEXTS)</text>
+<g font-family="Inter,-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
+  <!-- feed -->
+  <rect x="70" y="190" width="200" height="96" rx="12" fill="#fff" stroke="#1f3a31" stroke-width="2.5"/>
+  <text x="170" y="230" font-size="19" font-weight="700" fill="#16302a" text-anchor="middle">Social feed</text>
+  <text x="170" y="258" font-size="14" fill="#667085" text-anchor="middle">linkedin.com/feed</text>
+  <!-- adapter -->
+  <rect x="320" y="190" width="210" height="96" rx="12" fill="#fff" stroke="#1f3a31" stroke-width="2.5"/>
+  <text x="425" y="226" font-size="19" font-weight="700" fill="#16302a" text-anchor="middle">Network adapter</text>
+  <text x="425" y="252" font-family="ui-monospace,Menlo,monospace" font-size="14" fill="#2e8b57" text-anchor="middle">linkedin.js</text>
+  <text x="425" y="272" font-size="12.5" fill="#667085" text-anchor="middle">posts, IDs, text, "see more"</text>
+  <!-- more adapters -->
+  <rect x="70" y="306" width="220" height="70" rx="12" fill="none" stroke="#9aa59f" stroke-width="2" stroke-dasharray="6 6"/>
+  <text x="180" y="335" font-size="15" font-weight="600" fill="#5d6b63" text-anchor="middle">+ your adapter</text>
+  <text x="180" y="358" font-family="ui-monospace,Menlo,monospace" font-size="12.5" fill="#8a968f" text-anchor="middle">reddit.js · bluesky.js · …</text>
+  <!-- content -->
+  <rect x="70" y="420" width="460" height="110" rx="12" fill="#fff" stroke="#1f3a31" stroke-width="2.5"/>
+  <text x="300" y="458" font-size="19" font-weight="700" fill="#16302a" text-anchor="middle">Content script</text>
+  <text x="300" y="484" font-family="ui-monospace,Menlo,monospace" font-size="14" fill="#2e8b57" text-anchor="middle">networks.js + adapter + content.js</text>
+  <text x="300" y="508" font-size="13.5" fill="#667085" text-anchor="middle">watches visible posts and clicks → POST_VISIBLE / POST_OPENED</text>
+  <!-- sw -->
+  <rect x="640" y="380" width="300" height="150" rx="12" fill="#e7f5ec" stroke="#2e8b57" stroke-width="3"/>
+  <text x="790" y="418" font-size="19" font-weight="700" fill="#16302a" text-anchor="middle">Service worker</text>
+  <text x="790" y="444" font-family="ui-monospace,Menlo,monospace" font-size="14" fill="#2e8b57" text-anchor="middle">background.js</text>
+  <text x="790" y="472" font-size="13.5" fill="#344054" text-anchor="middle">validates sender URL</text>
+  <text x="790" y="494" font-size="13.5" fill="#344054" text-anchor="middle">records the view first</text>
+  <text x="790" y="516" font-size="13.5" fill="#344054" text-anchor="middle">queues one classification per post</text>
+  <!-- jev -->
+  <rect x="640" y="190" width="300" height="110" rx="12" fill="#16302a"/>
+  <text x="790" y="228" font-size="19" font-weight="700" fill="#fff" text-anchor="middle">TypeSafe Jev API</text>
+  <text x="790" y="254" font-family="ui-monospace,Menlo,monospace" font-size="13.5" fill="#9fd8b7" text-anchor="middle">jev-latest · choice question</text>
+  <text x="790" y="278" font-size="13.5" fill="#cdebd8" text-anchor="middle">one option per interest + irrelevant</text>
+  <!-- storage -->
+  <rect x="1020" y="380" width="310" height="150" rx="12" fill="#fff" stroke="#1f3a31" stroke-width="2.5"/>
+  <text x="1175" y="418" font-size="19" font-weight="700" fill="#16302a" text-anchor="middle">Local storage</text>
+  <text x="1175" y="444" font-family="ui-monospace,Menlo,monospace" font-size="14" fill="#2e8b57" text-anchor="middle">chrome.storage.local</text>
+  <text x="1175" y="472" font-size="13.5" fill="#344054" text-anchor="middle">network | day | post ID</text>
+  <text x="1175" y="494" font-size="13.5" fill="#344054" text-anchor="middle">category, interest, expanded</text>
+  <text x="1175" y="516" font-size="13.5" fill="#344054" text-anchor="middle">no full post text saved</text>
+  <!-- panel -->
+  <rect x="1020" y="190" width="310" height="110" rx="12" fill="#fff" stroke="#1f3a31" stroke-width="2.5"/>
+  <text x="1175" y="228" font-size="19" font-weight="700" fill="#16302a" text-anchor="middle">Side panel</text>
+  <text x="1175" y="254" font-family="ui-monospace,Menlo,monospace" font-size="14" fill="#2e8b57" text-anchor="middle">panel.html + panel.js</text>
+  <text x="1175" y="278" font-size="13.5" fill="#667085" text-anchor="middle">Today · History · Settings</text>
+</g>
+<g fill="none" stroke="#2e8b57" stroke-width="3">
+  <path d="M270 238H314" marker-end="url(#a)"/>
+  <path d="M425 286V414" marker-end="url(#a)"/>
+  <path d="M530 475H634" marker-end="url(#a)"/>
+  <path d="M760 380V306" marker-end="url(#a)"/>
+  <path d="M830 300V374" marker-end="url(#a)"/>
+  <path d="M940 455H1014" marker-end="url(#a)"/>
+  <path d="M1175 380V306" marker-end="url(#a)"/>
+</g>
+<path d="M290 341H419" fill="none" stroke="#9aa59f" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#g)"/>
+<text x="352" y="331" font-family="ui-monospace,Menlo,monospace" font-size="12" fill="#8a968f" text-anchor="middle">plugs in</text>
+<g font-family="ui-monospace,Menlo,monospace" font-size="12.5" fill="#5d6b63">
+  <text x="700" y="346" text-anchor="end">post text</text>
+  <text x="844" y="346">category</text>
+  <text x="977" y="446" text-anchor="middle">save</text>
+  <text x="1188" y="346">read</text>
+</g>
+</svg>
